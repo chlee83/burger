@@ -1,0 +1,22 @@
+ol {
+  padding: 5px;
+  margin: 5px;
+}
+
+li {
+  margin: 4px 0px;
+  font-size: 21px;
+}
+
+textarea {
+  width: 400px;
+}
+
+img {
+  width: 200px;
+}
+
+.form-group {
+  margin-bottom: 5px;
+}
+  

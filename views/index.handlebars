@@ -1,0 +1,98 @@
+      <h1 class="my-4">Eat Da Burger!</h1>
+
+      <!-- column for new burgers -->
+      <div class="row"><div class="col-2"></div>
+        <div class="col-5 text-left">
+          <ol>
+            {{#each burgers}}
+              {{#unless devoured}}
+                <li>{{burger_name}} <button class="devourBurger btn btn-secondary btn-sm" data-id="{{this.id}}">Devour it!</button></li>
+              {{/unless}}
+            {{/each}}
+          </ol>
+        </div>
+      
+   
+        <!-- column for devoured burgers -->
+        <div class="col-4 text-left">
+          <ol>
+            {{#each burgers}}
+              {{#if devoured}}
+                <li>{{burger_name}}</li>
+              {{/if}}
+            {{/each}}
+          </ol>
+        </div>
+
+       
+      </div>
+
+      <div class="row">
+        <div class="col-12 text-center">
+          <!-- form for new burgers to be inputted -->
+          <p>Write the type of burger you want!</p>
+
+          <form id="addburger" class="button-size">
+            <textarea type="text" name="burger" id="newBurger"></textarea><br>
+            <button type="submit" class="btn btn-success">Submit Burger</button>
+          </form>
+        </div>
+      </div>
+     
+
+
+<!-- javascript -->
+<script type="text/javascript">
+
+    //on submit of new burger function
+    $("#addburger").on("submit", function(event) {
+
+      // Make sure to preventDefault on a submit event.
+      event.preventDefault();
+
+      //grab user input burger name
+      var newBurger = {
+        burger_name: $("#newBurger").val().trim()
+      };
+
+      // Send the POST request.
+      $.ajax("/api/burgers", {
+        type: "POST",
+        data: newBurger
+      }).then(
+        function() {
+          console.log("Added new burger");
+          // Reload the page to get the updated list
+          location.reload();
+        }
+      );
+    });
+
+    $(".devourBurger").on("click", function(event) {
+
+      // Make sure to preventDefault on a submit event.
+      event.preventDefault();
+
+      var id = $(this).data("id");
+
+      var isDevoured = {
+        devoured: true
+      };
+
+      // Send the POST request.
+      $.ajax("/api/burgers" + id, {
+        type: "PUT",
+        data: isDevoured
+      }).then(
+        function() {
+          console.log("Devoured new burger");
+          // Reload the page to get the updated list
+          location.reload();
+        }
+      );
+
+    });
+
+  
+
+</script>
